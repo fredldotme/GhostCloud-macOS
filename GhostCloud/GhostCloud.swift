@@ -8,10 +8,10 @@
 import SwiftUI
 
 @main
-struct GhostCloud_macOSApp: App {
+struct GhostCloudApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView().frame(minWidth: 450, idealWidth: 450, maxWidth: .infinity, minHeight: 400, idealHeight: 400, maxHeight: .infinity, alignment: .center)
         }
     }
 }

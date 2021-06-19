@@ -1,0 +1,613 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		230AC527267BC57600C79497 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987F0C267AF13500A516D1 /* Foundation.framework */; };
+		230AC529267C8EBF00C79497 /* UniformTypeIdentifiers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987F0E267AF16300A516D1 /* UniformTypeIdentifiers.framework */; };
+		230AC52C267C9F8100C79497 /* SharedStateOverview.mm in Sources */ = {isa = PBXBuildFile; fileRef = 230AC52B267C9F8100C79497 /* SharedStateOverview.mm */; };
+		23987ECC267AE76300A516D1 /* GhostCloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23987ECB267AE76300A516D1 /* GhostCloud.swift */; };
+		23987ECE267AE76300A516D1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23987ECD267AE76300A516D1 /* ContentView.swift */; };
+		23987ED0267AE76500A516D1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23987ECF267AE76500A516D1 /* Assets.xcassets */; };
+		23987ED3267AE76500A516D1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23987ED2267AE76500A516D1 /* Preview Assets.xcassets */; };
+		23987EE3267AE78800A516D1 /* FileProviderExtension.mm in Sources */ = {isa = PBXBuildFile; fileRef = 23987EE2267AE78800A516D1 /* FileProviderExtension.mm */; };
+		23987EE6267AE78800A516D1 /* FileProviderItem.mm in Sources */ = {isa = PBXBuildFile; fileRef = 23987EE5267AE78800A516D1 /* FileProviderItem.mm */; };
+		23987EE9267AE78800A516D1 /* FileProviderEnumerator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 23987EE8267AE78800A516D1 /* FileProviderEnumerator.mm */; };
+		23987EEE267AE78800A516D1 /* FileProvider.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 23987EDF267AE78800A516D1 /* FileProvider.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		23987EF9267AECE000A516D1 /* harbourowncloudcommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EF4267AE88300A516D1 /* harbourowncloudcommon.framework */; };
+		23987EFA267AECE000A516D1 /* harbourowncloudcommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EF4267AE88300A516D1 /* harbourowncloudcommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		23987F09267AF0FC00A516D1 /* FileProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987F08267AF0FC00A516D1 /* FileProvider.framework */; };
+		23987F0D267AF13500A516D1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987F0C267AF13500A516D1 /* Foundation.framework */; };
+		23987F0F267AF16300A516D1 /* UniformTypeIdentifiers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987F0E267AF16300A516D1 /* UniformTypeIdentifiers.framework */; };
+		23987F10267AFF2B00A516D1 /* QtCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EFC267AEE8D00A516D1 /* QtCore.framework */; };
+		23987F11267AFF2B00A516D1 /* QtCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EFC267AEE8D00A516D1 /* QtCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		23987F12267AFF2B00A516D1 /* QtNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EFE267AEE8D00A516D1 /* QtNetwork.framework */; };
+		23987F13267AFF2B00A516D1 /* QtNetwork.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EFE267AEE8D00A516D1 /* QtNetwork.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		23987F14267AFF2B00A516D1 /* QtSql.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EFF267AEE8D00A516D1 /* QtSql.framework */; };
+		23987F15267AFF2B00A516D1 /* QtSql.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EFF267AEE8D00A516D1 /* QtSql.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		23987F16267AFF2B00A516D1 /* QtXml.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EFD267AEE8D00A516D1 /* QtXml.framework */; };
+		23987F17267AFF2B00A516D1 /* QtXml.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EFD267AEE8D00A516D1 /* QtXml.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		23987EEC267AE78800A516D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 23987EC0267AE76300A516D1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 23987EDE267AE78800A516D1;
+			remoteInfo = FileProvider;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		23987EF2267AE78800A516D1 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				23987EEE267AE78800A516D1 /* FileProvider.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23987EFB267AECE000A516D1 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				23987F15267AFF2B00A516D1 /* QtSql.framework in Embed Frameworks */,
+				23987F13267AFF2B00A516D1 /* QtNetwork.framework in Embed Frameworks */,
+				23987F11267AFF2B00A516D1 /* QtCore.framework in Embed Frameworks */,
+				23987F17267AFF2B00A516D1 /* QtXml.framework in Embed Frameworks */,
+				23987EFA267AECE000A516D1 /* harbourowncloudcommon.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		230AC52A267C9ED600C79497 /* SharedStateOverview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SharedStateOverview.h; sourceTree = "<group>"; };
+		230AC52B267C9F8100C79497 /* SharedStateOverview.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SharedStateOverview.mm; sourceTree = "<group>"; };
+		23987EC8267AE76300A516D1 /* GhostCloud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GhostCloud.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		23987ECB267AE76300A516D1 /* GhostCloud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GhostCloud.swift; sourceTree = "<group>"; };
+		23987ECD267AE76300A516D1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		23987ECF267AE76500A516D1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		23987ED2267AE76500A516D1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		23987ED4267AE76500A516D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		23987ED5267AE76500A516D1 /* GhostCloud.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GhostCloud.entitlements; sourceTree = "<group>"; };
+		23987EDF267AE78800A516D1 /* FileProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FileProvider.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		23987EE1267AE78800A516D1 /* FileProviderExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileProviderExtension.h; sourceTree = "<group>"; };
+		23987EE2267AE78800A516D1 /* FileProviderExtension.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FileProviderExtension.mm; sourceTree = "<group>"; };
+		23987EE4267AE78800A516D1 /* FileProviderItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileProviderItem.h; sourceTree = "<group>"; };
+		23987EE5267AE78800A516D1 /* FileProviderItem.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FileProviderItem.mm; sourceTree = "<group>"; };
+		23987EE7267AE78800A516D1 /* FileProviderEnumerator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileProviderEnumerator.h; sourceTree = "<group>"; };
+		23987EE8267AE78800A516D1 /* FileProviderEnumerator.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FileProviderEnumerator.mm; sourceTree = "<group>"; };
+		23987EEA267AE78800A516D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		23987EEB267AE78800A516D1 /* FileProvider.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FileProvider.entitlements; sourceTree = "<group>"; };
+		23987EF4267AE88300A516D1 /* harbourowncloudcommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = harbourowncloudcommon.framework; path = "/Users/alfredneumayer/Projects/open/GhostCloud-macOS/../build-harbour-owncloud-Desktop_Qt_5_15_2_clang_64bit-Release/src/common/harbourowncloudcommon.framework"; sourceTree = "<absolute>"; };
+		23987EFC267AEE8D00A516D1 /* QtCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtCore.framework; path = ../../../Applications/Qt/5.15.2/clang_64/lib/QtCore.framework; sourceTree = "<group>"; };
+		23987EFD267AEE8D00A516D1 /* QtXml.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtXml.framework; path = ../../../Applications/Qt/5.15.2/clang_64/lib/QtXml.framework; sourceTree = "<group>"; };
+		23987EFE267AEE8D00A516D1 /* QtNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtNetwork.framework; path = ../../../Applications/Qt/5.15.2/clang_64/lib/QtNetwork.framework; sourceTree = "<group>"; };
+		23987EFF267AEE8D00A516D1 /* QtSql.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtSql.framework; path = ../../../Applications/Qt/5.15.2/clang_64/lib/QtSql.framework; sourceTree = "<group>"; };
+		23987F08267AF0FC00A516D1 /* FileProvider.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FileProvider.framework; path = System/Library/Frameworks/FileProvider.framework; sourceTree = SDKROOT; };
+		23987F0A267AF11B00A516D1 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		23987F0C267AF13500A516D1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		23987F0E267AF16300A516D1 /* UniformTypeIdentifiers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniformTypeIdentifiers.framework; path = System/Library/Frameworks/UniformTypeIdentifiers.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		23987EC5267AE76300A516D1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				230AC527267BC57600C79497 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23987EDC267AE78800A516D1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				23987F12267AFF2B00A516D1 /* QtNetwork.framework in Frameworks */,
+				23987F16267AFF2B00A516D1 /* QtXml.framework in Frameworks */,
+				23987F14267AFF2B00A516D1 /* QtSql.framework in Frameworks */,
+				230AC529267C8EBF00C79497 /* UniformTypeIdentifiers.framework in Frameworks */,
+				23987F10267AFF2B00A516D1 /* QtCore.framework in Frameworks */,
+				23987F0F267AF16300A516D1 /* UniformTypeIdentifiers.framework in Frameworks */,
+				23987F09267AF0FC00A516D1 /* FileProvider.framework in Frameworks */,
+				23987EF9267AECE000A516D1 /* harbourowncloudcommon.framework in Frameworks */,
+				23987F0D267AF13500A516D1 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		23987EBF267AE76300A516D1 = {
+			isa = PBXGroup;
+			children = (
+				23987ECA267AE76300A516D1 /* GhostCloud */,
+				23987EE0267AE78800A516D1 /* FileProvider */,
+				23987EC9267AE76300A516D1 /* Products */,
+				23987EF3267AE88300A516D1 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		23987EC9267AE76300A516D1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				23987EC8267AE76300A516D1 /* GhostCloud.app */,
+				23987EDF267AE78800A516D1 /* FileProvider.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		23987ECA267AE76300A516D1 /* GhostCloud */ = {
+			isa = PBXGroup;
+			children = (
+				23987ECB267AE76300A516D1 /* GhostCloud.swift */,
+				23987ECD267AE76300A516D1 /* ContentView.swift */,
+				23987ECF267AE76500A516D1 /* Assets.xcassets */,
+				23987ED4267AE76500A516D1 /* Info.plist */,
+				23987ED5267AE76500A516D1 /* GhostCloud.entitlements */,
+				23987ED1267AE76500A516D1 /* Preview Content */,
+			);
+			path = GhostCloud;
+			sourceTree = "<group>";
+		};
+		23987ED1267AE76500A516D1 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				23987ED2267AE76500A516D1 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		23987EE0267AE78800A516D1 /* FileProvider */ = {
+			isa = PBXGroup;
+			children = (
+				23987EE1267AE78800A516D1 /* FileProviderExtension.h */,
+				23987EE2267AE78800A516D1 /* FileProviderExtension.mm */,
+				23987EE4267AE78800A516D1 /* FileProviderItem.h */,
+				23987EE5267AE78800A516D1 /* FileProviderItem.mm */,
+				23987EE7267AE78800A516D1 /* FileProviderEnumerator.h */,
+				23987EE8267AE78800A516D1 /* FileProviderEnumerator.mm */,
+				23987EEA267AE78800A516D1 /* Info.plist */,
+				23987EEB267AE78800A516D1 /* FileProvider.entitlements */,
+				230AC52A267C9ED600C79497 /* SharedStateOverview.h */,
+				230AC52B267C9F8100C79497 /* SharedStateOverview.mm */,
+			);
+			path = FileProvider;
+			sourceTree = "<group>";
+		};
+		23987EF3267AE88300A516D1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				23987F0E267AF16300A516D1 /* UniformTypeIdentifiers.framework */,
+				23987F0C267AF13500A516D1 /* Foundation.framework */,
+				23987F0A267AF11B00A516D1 /* CoreFoundation.framework */,
+				23987F08267AF0FC00A516D1 /* FileProvider.framework */,
+				23987EFC267AEE8D00A516D1 /* QtCore.framework */,
+				23987EFE267AEE8D00A516D1 /* QtNetwork.framework */,
+				23987EFF267AEE8D00A516D1 /* QtSql.framework */,
+				23987EFD267AEE8D00A516D1 /* QtXml.framework */,
+				23987EF4267AE88300A516D1 /* harbourowncloudcommon.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		23987EC7267AE76300A516D1 /* GhostCloud */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 23987ED8267AE76500A516D1 /* Build configuration list for PBXNativeTarget "GhostCloud" */;
+			buildPhases = (
+				23987EC4267AE76300A516D1 /* Sources */,
+				23987EC5267AE76300A516D1 /* Frameworks */,
+				23987EC6267AE76300A516D1 /* Resources */,
+				23987EF2267AE78800A516D1 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				23987EED267AE78800A516D1 /* PBXTargetDependency */,
+			);
+			name = GhostCloud;
+			productName = "GhostCloud-macOS";
+			productReference = 23987EC8267AE76300A516D1 /* GhostCloud.app */;
+			productType = "com.apple.product-type.application";
+		};
+		23987EDE267AE78800A516D1 /* FileProvider */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 23987EEF267AE78800A516D1 /* Build configuration list for PBXNativeTarget "FileProvider" */;
+			buildPhases = (
+				23987EDB267AE78800A516D1 /* Sources */,
+				23987EDC267AE78800A516D1 /* Frameworks */,
+				23987EDD267AE78800A516D1 /* Resources */,
+				23987EFB267AECE000A516D1 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FileProvider;
+			productName = FileProvider;
+			productReference = 23987EDF267AE78800A516D1 /* FileProvider.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		23987EC0267AE76300A516D1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1250;
+				LastUpgradeCheck = 1250;
+				TargetAttributes = {
+					23987EC7267AE76300A516D1 = {
+						CreatedOnToolsVersion = 12.5;
+					};
+					23987EDE267AE78800A516D1 = {
+						CreatedOnToolsVersion = 12.5;
+					};
+				};
+			};
+			buildConfigurationList = 23987EC3267AE76300A516D1 /* Build configuration list for PBXProject "GhostCloud" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 23987EBF267AE76300A516D1;
+			productRefGroup = 23987EC9267AE76300A516D1 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				23987EC7267AE76300A516D1 /* GhostCloud */,
+				23987EDE267AE78800A516D1 /* FileProvider */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		23987EC6267AE76300A516D1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				23987ED3267AE76500A516D1 /* Preview Assets.xcassets in Resources */,
+				23987ED0267AE76500A516D1 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23987EDD267AE78800A516D1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		23987EC4267AE76300A516D1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				23987ECE267AE76300A516D1 /* ContentView.swift in Sources */,
+				23987ECC267AE76300A516D1 /* GhostCloud.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		23987EDB267AE78800A516D1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				23987EE9267AE78800A516D1 /* FileProviderEnumerator.mm in Sources */,
+				230AC52C267C9F8100C79497 /* SharedStateOverview.mm in Sources */,
+				23987EE3267AE78800A516D1 /* FileProviderExtension.mm in Sources */,
+				23987EE6267AE78800A516D1 /* FileProviderItem.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		23987EED267AE78800A516D1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 23987EDE267AE78800A516D1 /* FileProvider */;
+			targetProxy = 23987EEC267AE78800A516D1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		23987ED6267AE76500A516D1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		23987ED7267AE76500A516D1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		23987ED9267AE76500A516D1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = GhostCloud/GhostCloud.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"GhostCloud/Preview Content\"";
+				DEVELOPMENT_TEAM = 6VFS24X855;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = GhostCloud/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "me.fredl.GhostCloud-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		23987EDA267AE76500A516D1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = GhostCloud/GhostCloud.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"GhostCloud/Preview Content\"";
+				DEVELOPMENT_TEAM = 6VFS24X855;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = GhostCloud/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "me.fredl.GhostCloud-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		23987EF0267AE78800A516D1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = FileProvider/FileProvider.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6VFS24X855;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_TESTING_SEARCH_PATHS = YES;
+				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch *.xcode* *.xcassets (*) .DS_Store CVS .svn .git .hg *.pbproj *.pbxproj *.framework";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/alfredneumayer/Applications/Qt/5.15.2/clang_64/lib,
+					"$(PROJECT_DIR)/../build-harbour-owncloud-Desktop_Qt_5_15_2_clang_64bit-Release/src/common",
+				);
+				HEADER_SEARCH_PATHS = (
+					"/Users/alfredneumayer/Projects/open/build-harbour-owncloud-Desktop_Qt_5_15_2_clang_64bit-Release/src/common/harbourowncloudcommon.framework/Headers/**",
+					/Users/alfredneumayer/Applications/Qt/5.15.2/clang_64/lib/QtCore.framework/Headers,
+					/Users/alfredneumayer/Applications/Qt/5.15.2/clang_64/lib/QtXml.framework/Headers,
+					/Users/alfredneumayer/Applications/Qt/5.15.2/clang_64/lib/QtNetwork.framework/Headers,
+					/Users/alfredneumayer/Applications/Qt/5.15.2/clang_64/lib/QtSql.framework/Headers,
+				);
+				INCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "";
+				INFOPLIST_FILE = FileProvider/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				OTHER_CFLAGS = "";
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
+				PRODUCT_BUNDLE_IDENTIFIER = "me.fredl.GhostCloud-macOS.FileProvider";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		23987EF1267AE78800A516D1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = FileProvider/FileProvider.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6VFS24X855;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_TESTING_SEARCH_PATHS = YES;
+				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch *.xcode* *.xcassets (*) .DS_Store CVS .svn .git .hg *.pbproj *.pbxproj *.framework";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/alfredneumayer/Applications/Qt/5.15.2/clang_64/lib,
+					"$(PROJECT_DIR)/../build-harbour-owncloud-Desktop_Qt_5_15_2_clang_64bit-Release/src/common",
+				);
+				HEADER_SEARCH_PATHS = (
+					"/Users/alfredneumayer/Projects/open/build-harbour-owncloud-Desktop_Qt_5_15_2_clang_64bit-Release/src/common/harbourowncloudcommon.framework/Headers/**",
+					/Users/alfredneumayer/Applications/Qt/5.15.2/clang_64/lib/QtCore.framework/Headers,
+					/Users/alfredneumayer/Applications/Qt/5.15.2/clang_64/lib/QtXml.framework/Headers,
+					/Users/alfredneumayer/Applications/Qt/5.15.2/clang_64/lib/QtNetwork.framework/Headers,
+					/Users/alfredneumayer/Applications/Qt/5.15.2/clang_64/lib/QtSql.framework/Headers,
+				);
+				INCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "";
+				INFOPLIST_FILE = FileProvider/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+					"@loader_path/Frameworks",
+				);
+				OTHER_CFLAGS = "";
+				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
+				PRODUCT_BUNDLE_IDENTIFIER = "me.fredl.GhostCloud-macOS.FileProvider";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		23987EC3267AE76300A516D1 /* Build configuration list for PBXProject "GhostCloud" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				23987ED6267AE76500A516D1 /* Debug */,
+				23987ED7267AE76500A516D1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		23987ED8267AE76500A516D1 /* Build configuration list for PBXNativeTarget "GhostCloud" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				23987ED9267AE76500A516D1 /* Debug */,
+				23987EDA267AE76500A516D1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		23987EEF267AE78800A516D1 /* Build configuration list for PBXNativeTarget "FileProvider" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				23987EF0267AE78800A516D1 /* Debug */,
+				23987EF1267AE78800A516D1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 23987EC0267AE76300A516D1 /* Project object */;
+}
