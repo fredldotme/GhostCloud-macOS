@@ -14,6 +14,8 @@ It is based on [GhostCloud](https://github.com/fredldotme/harbour-owncloud/), th
 
 - Download and build [GhostCloud](https://github.com/fredldotme/harbour-owncloud/) common code as a framework, using `CONFIG+=noadditionals` as the `qmake` config.
 - Reference the framework within the Xcode project
+- Reference Qt (Core, Network, Sql, Xml) within the Xcode project
+- Add header paths to `Headers` directories within the referenced frameworks
 - Build using Xcode
 
 

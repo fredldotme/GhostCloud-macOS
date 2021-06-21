@@ -10,6 +10,16 @@
 		230AC527267BC57600C79497 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987F0C267AF13500A516D1 /* Foundation.framework */; };
 		230AC529267C8EBF00C79497 /* UniformTypeIdentifiers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987F0E267AF16300A516D1 /* UniformTypeIdentifiers.framework */; };
 		230AC52C267C9F8100C79497 /* SharedStateOverview.mm in Sources */ = {isa = PBXBuildFile; fileRef = 230AC52B267C9F8100C79497 /* SharedStateOverview.mm */; };
+		237A18B2267F55D5006216CF /* QtCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EFC267AEE8D00A516D1 /* QtCore.framework */; };
+		237A18B3267F55D5006216CF /* QtCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EFC267AEE8D00A516D1 /* QtCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		237A18B4267F55D5006216CF /* QtNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EFE267AEE8D00A516D1 /* QtNetwork.framework */; };
+		237A18B5267F55D5006216CF /* QtNetwork.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EFE267AEE8D00A516D1 /* QtNetwork.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		237A18B6267F55D5006216CF /* QtSql.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EFF267AEE8D00A516D1 /* QtSql.framework */; };
+		237A18B7267F55D5006216CF /* QtSql.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EFF267AEE8D00A516D1 /* QtSql.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		237A18B8267F55D5006216CF /* QtXml.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EFD267AEE8D00A516D1 /* QtXml.framework */; };
+		237A18B9267F55D5006216CF /* QtXml.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EFD267AEE8D00A516D1 /* QtXml.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		237A18BA267F5995006216CF /* harbourowncloudcommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EF4267AE88300A516D1 /* harbourowncloudcommon.framework */; };
+		237A18BB267F5995006216CF /* harbourowncloudcommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EF4267AE88300A516D1 /* harbourowncloudcommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		23987ECC267AE76300A516D1 /* GhostCloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23987ECB267AE76300A516D1 /* GhostCloud.swift */; };
 		23987ECE267AE76300A516D1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23987ECD267AE76300A516D1 /* ContentView.swift */; };
 		23987ED0267AE76500A516D1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23987ECF267AE76500A516D1 /* Assets.xcassets */; };
@@ -18,19 +28,9 @@
 		23987EE6267AE78800A516D1 /* FileProviderItem.mm in Sources */ = {isa = PBXBuildFile; fileRef = 23987EE5267AE78800A516D1 /* FileProviderItem.mm */; };
 		23987EE9267AE78800A516D1 /* FileProviderEnumerator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 23987EE8267AE78800A516D1 /* FileProviderEnumerator.mm */; };
 		23987EEE267AE78800A516D1 /* FileProvider.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 23987EDF267AE78800A516D1 /* FileProvider.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		23987EF9267AECE000A516D1 /* harbourowncloudcommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EF4267AE88300A516D1 /* harbourowncloudcommon.framework */; };
-		23987EFA267AECE000A516D1 /* harbourowncloudcommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EF4267AE88300A516D1 /* harbourowncloudcommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		23987F09267AF0FC00A516D1 /* FileProvider.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987F08267AF0FC00A516D1 /* FileProvider.framework */; };
 		23987F0D267AF13500A516D1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987F0C267AF13500A516D1 /* Foundation.framework */; };
 		23987F0F267AF16300A516D1 /* UniformTypeIdentifiers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987F0E267AF16300A516D1 /* UniformTypeIdentifiers.framework */; };
-		23987F10267AFF2B00A516D1 /* QtCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EFC267AEE8D00A516D1 /* QtCore.framework */; };
-		23987F11267AFF2B00A516D1 /* QtCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EFC267AEE8D00A516D1 /* QtCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		23987F12267AFF2B00A516D1 /* QtNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EFE267AEE8D00A516D1 /* QtNetwork.framework */; };
-		23987F13267AFF2B00A516D1 /* QtNetwork.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EFE267AEE8D00A516D1 /* QtNetwork.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		23987F14267AFF2B00A516D1 /* QtSql.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EFF267AEE8D00A516D1 /* QtSql.framework */; };
-		23987F15267AFF2B00A516D1 /* QtSql.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EFF267AEE8D00A516D1 /* QtSql.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		23987F16267AFF2B00A516D1 /* QtXml.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EFD267AEE8D00A516D1 /* QtXml.framework */; };
-		23987F17267AFF2B00A516D1 /* QtXml.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EFD267AEE8D00A516D1 /* QtXml.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,11 +61,11 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				23987F15267AFF2B00A516D1 /* QtSql.framework in Embed Frameworks */,
-				23987F13267AFF2B00A516D1 /* QtNetwork.framework in Embed Frameworks */,
-				23987F11267AFF2B00A516D1 /* QtCore.framework in Embed Frameworks */,
-				23987F17267AFF2B00A516D1 /* QtXml.framework in Embed Frameworks */,
-				23987EFA267AECE000A516D1 /* harbourowncloudcommon.framework in Embed Frameworks */,
+				237A18B7267F55D5006216CF /* QtSql.framework in Embed Frameworks */,
+				237A18B5267F55D5006216CF /* QtNetwork.framework in Embed Frameworks */,
+				237A18BB267F5995006216CF /* harbourowncloudcommon.framework in Embed Frameworks */,
+				237A18B3267F55D5006216CF /* QtCore.framework in Embed Frameworks */,
+				237A18B9267F55D5006216CF /* QtXml.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -75,6 +75,13 @@
 /* Begin PBXFileReference section */
 		230AC52A267C9ED600C79497 /* SharedStateOverview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SharedStateOverview.h; sourceTree = "<group>"; };
 		230AC52B267C9F8100C79497 /* SharedStateOverview.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SharedStateOverview.mm; sourceTree = "<group>"; };
+		236E9813267EB79800B81F05 /* FileProviderHelpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileProviderHelpers.h; sourceTree = "<group>"; };
+		237A189D267ED23E006216CF /* harbourowncloudcommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = harbourowncloudcommon.framework; path = "../build-harbour-owncloud-Desktop_Qt_6_2_0_clang_64bit-Release/src/common/harbourowncloudcommon.framework"; sourceTree = "<group>"; };
+		237A18A1267ED46F006216CF /* QtSql.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtSql.framework; path = ../../../Applications/Qt/6.2.0/macos/lib/QtSql.framework; sourceTree = "<group>"; };
+		237A18A2267ED46F006216CF /* QtCore5Compat.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtCore5Compat.framework; path = ../../../Applications/Qt/6.2.0/macos/lib/QtCore5Compat.framework; sourceTree = "<group>"; };
+		237A18A3267ED46F006216CF /* QtXml.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtXml.framework; path = ../../../Applications/Qt/6.2.0/macos/lib/QtXml.framework; sourceTree = "<group>"; };
+		237A18A4267ED46F006216CF /* QtNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtNetwork.framework; path = ../../../Applications/Qt/6.2.0/macos/lib/QtNetwork.framework; sourceTree = "<group>"; };
+		237A18A5267ED46F006216CF /* QtCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtCore.framework; path = ../../../Applications/Qt/6.2.0/macos/lib/QtCore.framework; sourceTree = "<group>"; };
 		23987EC8267AE76300A516D1 /* GhostCloud.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GhostCloud.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		23987ECB267AE76300A516D1 /* GhostCloud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GhostCloud.swift; sourceTree = "<group>"; };
 		23987ECD267AE76300A516D1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -115,14 +122,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23987F12267AFF2B00A516D1 /* QtNetwork.framework in Frameworks */,
-				23987F16267AFF2B00A516D1 /* QtXml.framework in Frameworks */,
-				23987F14267AFF2B00A516D1 /* QtSql.framework in Frameworks */,
+				237A18B6267F55D5006216CF /* QtSql.framework in Frameworks */,
+				237A18B2267F55D5006216CF /* QtCore.framework in Frameworks */,
+				237A18B4267F55D5006216CF /* QtNetwork.framework in Frameworks */,
+				237A18B8267F55D5006216CF /* QtXml.framework in Frameworks */,
 				230AC529267C8EBF00C79497 /* UniformTypeIdentifiers.framework in Frameworks */,
-				23987F10267AFF2B00A516D1 /* QtCore.framework in Frameworks */,
+				237A18BA267F5995006216CF /* harbourowncloudcommon.framework in Frameworks */,
 				23987F0F267AF16300A516D1 /* UniformTypeIdentifiers.framework in Frameworks */,
 				23987F09267AF0FC00A516D1 /* FileProvider.framework in Frameworks */,
-				23987EF9267AECE000A516D1 /* harbourowncloudcommon.framework in Frameworks */,
 				23987F0D267AF13500A516D1 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -183,6 +190,7 @@
 				23987EEB267AE78800A516D1 /* FileProvider.entitlements */,
 				230AC52A267C9ED600C79497 /* SharedStateOverview.h */,
 				230AC52B267C9F8100C79497 /* SharedStateOverview.mm */,
+				236E9813267EB79800B81F05 /* FileProviderHelpers.h */,
 			);
 			path = FileProvider;
 			sourceTree = "<group>";
@@ -190,6 +198,12 @@
 		23987EF3267AE88300A516D1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				237A18A5267ED46F006216CF /* QtCore.framework */,
+				237A18A2267ED46F006216CF /* QtCore5Compat.framework */,
+				237A18A4267ED46F006216CF /* QtNetwork.framework */,
+				237A18A1267ED46F006216CF /* QtSql.framework */,
+				237A18A3267ED46F006216CF /* QtXml.framework */,
+				237A189D267ED23E006216CF /* harbourowncloudcommon.framework */,
 				23987F0E267AF16300A516D1 /* UniformTypeIdentifiers.framework */,
 				23987F0C267AF13500A516D1 /* Foundation.framework */,
 				23987F0A267AF11B00A516D1 /* CoreFoundation.framework */,
@@ -221,6 +235,8 @@
 				23987EED267AE78800A516D1 /* PBXTargetDependency */,
 			);
 			name = GhostCloud;
+			packageProductDependencies = (
+			);
 			productName = "GhostCloud-macOS";
 			productReference = 23987EC8267AE76300A516D1 /* GhostCloud.app */;
 			productType = "com.apple.product-type.application";
@@ -269,6 +285,8 @@
 				Base,
 			);
 			mainGroup = 23987EBF267AE76300A516D1;
+			packageReferences = (
+			);
 			productRefGroup = 23987EC9267AE76300A516D1 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -501,6 +519,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = FileProvider/FileProvider.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -510,15 +529,16 @@
 				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch *.xcode* *.xcassets (*) .DS_Store CVS .svn .git .hg *.pbproj *.pbxproj *.framework";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
+					"/Users/alfredneumayer/Projects/open/build-harbour-owncloud-Desktop_Qt_5_15_2_clang_64bit-Release/src/common",
 					/Users/alfredneumayer/Applications/Qt/5.15.2/clang_64/lib,
 					"$(PROJECT_DIR)/../build-harbour-owncloud-Desktop_Qt_5_15_2_clang_64bit-Release/src/common",
 				);
 				HEADER_SEARCH_PATHS = (
 					"/Users/alfredneumayer/Projects/open/build-harbour-owncloud-Desktop_Qt_5_15_2_clang_64bit-Release/src/common/harbourowncloudcommon.framework/Headers/**",
-					/Users/alfredneumayer/Applications/Qt/5.15.2/clang_64/lib/QtCore.framework/Headers,
 					/Users/alfredneumayer/Applications/Qt/5.15.2/clang_64/lib/QtXml.framework/Headers,
-					/Users/alfredneumayer/Applications/Qt/5.15.2/clang_64/lib/QtNetwork.framework/Headers,
 					/Users/alfredneumayer/Applications/Qt/5.15.2/clang_64/lib/QtSql.framework/Headers,
+					/Users/alfredneumayer/Applications/Qt/5.15.2/clang_64/lib/QtNetwork.framework/Headers,
+					/Users/alfredneumayer/Applications/Qt/5.15.2/clang_64/lib/QtCore.framework/Headers,
 				);
 				INCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "";
 				INFOPLIST_FILE = FileProvider/Info.plist;
@@ -541,6 +561,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_ENTITLEMENTS = FileProvider/FileProvider.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -550,15 +571,16 @@
 				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch *.xcode* *.xcassets (*) .DS_Store CVS .svn .git .hg *.pbproj *.pbxproj *.framework";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
+					"/Users/alfredneumayer/Projects/open/build-harbour-owncloud-Desktop_Qt_5_15_2_clang_64bit-Release/src/common",
 					/Users/alfredneumayer/Applications/Qt/5.15.2/clang_64/lib,
 					"$(PROJECT_DIR)/../build-harbour-owncloud-Desktop_Qt_5_15_2_clang_64bit-Release/src/common",
 				);
 				HEADER_SEARCH_PATHS = (
 					"/Users/alfredneumayer/Projects/open/build-harbour-owncloud-Desktop_Qt_5_15_2_clang_64bit-Release/src/common/harbourowncloudcommon.framework/Headers/**",
-					/Users/alfredneumayer/Applications/Qt/5.15.2/clang_64/lib/QtCore.framework/Headers,
 					/Users/alfredneumayer/Applications/Qt/5.15.2/clang_64/lib/QtXml.framework/Headers,
-					/Users/alfredneumayer/Applications/Qt/5.15.2/clang_64/lib/QtNetwork.framework/Headers,
 					/Users/alfredneumayer/Applications/Qt/5.15.2/clang_64/lib/QtSql.framework/Headers,
+					/Users/alfredneumayer/Applications/Qt/5.15.2/clang_64/lib/QtNetwork.framework/Headers,
+					/Users/alfredneumayer/Applications/Qt/5.15.2/clang_64/lib/QtCore.framework/Headers,
 				);
 				INCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "";
 				INFOPLIST_FILE = FileProvider/Info.plist;

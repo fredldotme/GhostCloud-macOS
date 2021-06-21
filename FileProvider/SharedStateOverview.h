@@ -29,18 +29,31 @@ private:
 
 public:
     FileProviderItem* getRootItem();
-    FileProviderItem* getFileProviderItem(const QString& identifier);
+    FileProviderItem* getFileProviderItem(const QString& identifier, bool fetchNew = false);
     QVector<AccountBase*> accounts();
+    AccountBase* accountForIdentifier(QString identifier);
     QVector<AccountWorkers*> workers();
     AccountWorkerGenerator* generator() override;
-    void initDomain(QString identifier);
-    QString getIdentifierForAccount(AccountBase* account);
+    NSFileProviderManager* providerManager();
 
     AccountWorkers* findWorkersForIdentifier(QString identifier);
-    QString findPathForIdentifier(QString identifier);
-    
-    bool causeDownload(QString identifier, QString& localPath);
-    bool causeDelete(QString identifier);
+
+    void causeContentListing(QString identifier,
+                             NSMutableArray<FileProviderItem*>* items,
+                             std::function<void()> completionHandler,
+                             std::function<void()> failureHandler);
+    void causeDownload(QString identifier,
+                       NSProgress* progressIndicator,
+                       std::function<void(QString)> completionHandler,
+                       std::function<void(QString)> failureHandler);
+    void causeUpload(FileProviderItem* item,
+                     NSURL* newContents,
+                     NSProgress* progressIndicator,
+                     std::function<void()> completionHandler,
+                     std::function<void()> failureHandler);
+    void causeDelete(QString identifier,
+                     std::function<void()> completionHandler,
+                     std::function<void()> failureHandler);
 
     void addFileProviderItem(QString identifier, FileProviderItem* item);
 

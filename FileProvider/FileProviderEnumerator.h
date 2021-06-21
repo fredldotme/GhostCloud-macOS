@@ -11,6 +11,7 @@
 @interface FileProviderEnumerator : NSObject<NSFileProviderEnumerator>
 {
     NSFileProviderItemIdentifier itemIdentifier;
+    NSInteger currentAnchor;
 }
-- (instancetype) initWithItemIdentifier: (NSFileProviderItemIdentifier)containerItemIdentifier;
+- (instancetype) initWithItemIdentifier: (NSFileProviderItemIdentifier)containerItemIdentifier withAnchor:(NSInteger)currentAnchor;
 @end

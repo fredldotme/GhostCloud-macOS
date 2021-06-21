@@ -5,14 +5,17 @@
 //  Created by Alfred Neumayer on 18.06.21.
 //
 
-#include "SharedStateOverview.h"
+#import <Foundation/Foundation.h>
 #include <UniformTypeIdentifiers/UniformTypeIdentifiers.h>
 
-#include <QMutex>
-#include <QMutexLocker>
+#include <QDateTime>
+#include <QFileInfo>
 
 #include <commandqueue.h>
 #include <util/filepathutil.h>
+
+#include "SharedStateOverview.h"
+#include "FileProviderHelpers.h"
 
 static std::thread qtThread;
 
@@ -73,12 +76,6 @@ void SharedStateOverview::InitQt()
     this->m_app->exec();
 }
 
-void SharedStateOverview::initDomain(QString ident)
-{
-    AccountWorkers* workers = nullptr;
-    this->m_domainWorkers.insert(ident, workers);
-}
-
 AccountWorkerGenerator* SharedStateOverview::generator()
 {
     return this->m_generator;
@@ -94,7 +91,25 @@ QVector<AccountWorkers*> SharedStateOverview::workers()
     return this->m_generator->accountWorkersVector();
 }
 
-FileProviderItem* SharedStateOverview::getFileProviderItem(const QString& identifier)
+AccountBase* SharedStateOverview::accountForIdentifier(QString identifier)
+{
+    for (AccountBase* account : this->accounts()) {
+        if (getIdentifierForAccount(account) == identifier)
+            return account;
+    }
+    return nullptr;
+}
+
+NSFileProviderManager* SharedStateOverview::providerManager()
+{
+    NSFileProviderDomain* domain = [[NSFileProviderDomain alloc]
+                                    initWithIdentifier:@"me.fredl.GhostCloud-macOS.FileProvider"
+                                    displayName:@"GhostCloud"] ;
+    NSFileProviderManager* manager = [NSFileProviderManager managerForDomain:domain];
+    return manager;
+}
+
+FileProviderItem* SharedStateOverview::getFileProviderItem(const QString& identifier, bool fetchNew)
 {
     qDebug() << "Trying to find FPI for id" << identifier;
     FileProviderItem* ret = nil;
@@ -116,23 +131,21 @@ FileProviderItem* SharedStateOverview::getRootItem()
                                              initWithItemIdentifier:NSFileProviderRootContainerItemIdentifier
                                              withUTType:UTTypeFolder
                                              withParent:NSFileProviderRootContainerItemIdentifier
-                                             withSize: 0];
+                                             withSize: 0
+                                             withVersion:@"rootItemVersion"
+                                             withCreationDate:[NSDate date]
+                                             withModificationDate:[NSDate date]];
     return item;
-}
-
-QString SharedStateOverview::getIdentifierForAccount(AccountBase *account)
-{
-    if (!account)
-        return QString();
-
-    const QString namePattern = QStringLiteral("%1 (%2:%3).dir").arg(account->username(), account->hostname(), QString::number(account->port()));
-    return namePattern;
 }
 
 AccountWorkers* SharedStateOverview::findWorkersForIdentifier(QString identifier)
 {
     AccountWorkers* ret = nullptr;
+#if QT_VERSION < 0x060000
     QStringList pathCrumbs = identifier.split("/", QString::SkipEmptyParts);
+#else
+    QStringList pathCrumbs = identifier.split("/", Qt::SkipEmptyParts);
+#endif
     QString providerIdentifier = "";
     if (pathCrumbs.length() > 0)
         providerIdentifier = pathCrumbs.takeFirst();
@@ -143,7 +156,7 @@ AccountWorkers* SharedStateOverview::findWorkersForIdentifier(QString identifier
     }
 
     for (AccountWorkers* potentialWorkers : SharedStateOverview::Instance()->workers()) {
-        if (providerIdentifier == SharedStateOverview::Instance()->getIdentifierForAccount(potentialWorkers->account())) {
+        if (providerIdentifier == getIdentifierForAccount(potentialWorkers->account())) {
             ret = potentialWorkers;
             break;
         }
@@ -153,91 +166,276 @@ done:
     return ret;
 }
 
-QString SharedStateOverview::findPathForIdentifier(QString identifier)
+void SharedStateOverview::causeContentListing(QString identifier,
+                                              NSMutableArray<FileProviderItem*>* items,
+                                              std::function<void()> completionHandler,
+                                              std::function<void()> failureHandler)
 {
-    QStringList pathCrumbs = identifier.split("/", QString::SkipEmptyParts);
+    NSString* itemIdentifier = identifier.toNSString();
+    qInfo() << "Enumerating items on" << itemIdentifier;
+
+#if QT_VERSION < 0x060000
+    QStringList pathCrumbs = QString::fromNSString(itemIdentifier).split("/", QString::SkipEmptyParts);
+#else
+    QStringList pathCrumbs = QString::fromNSString(itemIdentifier).split("/", Qt::SkipEmptyParts);
+#endif
     QString providerIdentifier = "";
     if (pathCrumbs.length() > 0)
         providerIdentifier = pathCrumbs.takeFirst();
-
-    if (providerIdentifier.isEmpty()) {
-        qWarning() << "providerIdentifier turned out to be empty:" << identifier;
-        return QString();
-    }
-
-    QString path = "/";
+    
+    QString remotePath = "/";
     if (pathCrumbs.length() > 0)
-        path = "/" + pathCrumbs.join("/");
+        remotePath = "/" + pathCrumbs.join("/") + "/";
+    
+    if (providerIdentifier.isEmpty()) {
+        qWarning() << "providerIdentifier is empty!" << itemIdentifier;
+        failureHandler();
+    }
+    
+    AccountWorkers* desiredWorkers = nullptr;
+    for (AccountWorkers* potentialWorkers : SharedStateOverview::Instance()->workers()) {
+        if (providerIdentifier == getIdentifierForAccount(potentialWorkers->account())) {
+            desiredWorkers = potentialWorkers;
+            break;
+        }
+    }
+    
+    if (!desiredWorkers) {
+        qWarning() << "Didn't find workers for" << itemIdentifier;
+        failureHandler();
+    }
+    
+    CloudStorageProvider* commandQueue = desiredWorkers->browserCommandQueue();
+    CommandEntity* command = commandQueue->directoryListingRequest(remotePath, false, false);
+    
+    command->run();
+    command->waitForFinished();
+    
+    QVariantMap result = command->resultData();
+    QVariantList contents = result.value("dirContent").toList();
+    for (QVariant content : contents) {
+        QVariantMap dirContent = content.toMap();
+        const bool isDir = dirContent.value("isDirectory").toBool();
+        const QString name = dirContent.value("name").toString();
+        const QString path = dirContent.value("path").toString();
+        const unsigned long long size = dirContent.value("size").toULongLong();
+        const QString version = dirContent.value("uniqueId").toString();
+        const QDateTime creationDate = dirContent.value("createdAt").toDateTime();
+        const QDateTime modificationDate = dirContent.value("lastModification").toDateTime();
 
-    return path;
+        QString idPath = QString::fromNSString(itemIdentifier);
+        if (!idPath.endsWith("/"))
+            idPath += "/";
+        idPath += name;
+        if (isDir)
+            idPath += "/";
+        
+        qDebug() << "IDPATH:" << idPath;
+        FileProviderItem *item = [[FileProviderItem alloc] initWithName:name.toNSString()
+                                                 initWithItemIdentifier:idPath.toNSString()
+                                                             withUTType: isDir ? UTTypeFolder : UTTypePlainText
+                                                             withParent: itemIdentifier
+                                                               withSize: isDir ? 0 : size
+                                                            withVersion:version.toNSString()
+                                                       withCreationDate:creationDate.toNSDate()
+                                                   withModificationDate:modificationDate.toNSDate()];
+        SharedStateOverview::Instance()->addFileProviderItem(idPath, item);
+        if (items != nil)
+            [items addObject:item];
+    }
+    completionHandler();
 }
 
-bool SharedStateOverview::causeDownload(QString identifier, QString& localPath)
+void SharedStateOverview::causeDownload(QString identifier,
+                                        NSProgress* progressIndicator,
+                                        std::function<void(QString)> completionHandler,
+                                        std::function<void(QString)> failureHandler)
 {
     qDebug() << "CAUSING DOWNLOAD:" << identifier;
-    AccountWorkers* workers = this->findWorkersForIdentifier(identifier);
 
+    AccountWorkers* workers = this->findWorkersForIdentifier(identifier);
+    
     if (!workers) {
         qWarning() << "Failed to find account workers for" << identifier;
-        return false;
+        failureHandler(QString());
+        return;
     }
-
-    const QString remotePath = this->findPathForIdentifier(identifier);
+    
+    const QString remotePath = findPathForIdentifier(identifier);
     if (remotePath.isEmpty()) {
         qWarning() << "remotePath turned out to be empty:" << identifier;
-        return false;
+        failureHandler(QString());
+        return;
     }
 
+    // Reuse cached files to not confuse fileproviderd when clearing the cache.
+    const QString localPath = FilePathUtil::destination(workers->account()) + remotePath;
+    if (QFile::exists(localPath)) {
+        completionHandler(localPath);
+        return;
+    }
+
+    //NSURL* localPathUrl = QUrl::fromLocalFile(localPath).toNSURL();
+    //[localPathUrl startAccessingSecurityScopedResource];
     CommandEntity* command = workers->transferCommandQueue()->fileDownloadRequest(remotePath,
                                                                                   "",
                                                                                   false,
                                                                                   QDateTime(),
                                                                                   false);
+    
     if (!command) {
         qWarning() << "Received empty download command entity";
-        return false;
+        failureHandler(localPath);
+        return;
     }
-
+    
+    [progressIndicator setTotalUnitCount:100];
+    progressIndicator.cancellationHandler = [command](){ command->abort(); };
+    
     QObject::connect(command, &CommandEntity::done, this, [=](){
         qDebug() << "Download done" << identifier;
-    });
+        completionHandler(localPath);
+        //[localPathUrl stopAccessingSecurityScopedResource];
+        command->deleteLater();
+    }, Qt::DirectConnection);
+
+    QObject::connect(command, &CommandEntity::aborted, this, [=](){
+        qDebug() << "Download aborted" << identifier;
+        failureHandler(localPath);
+        //[localPathUrl stopAccessingSecurityScopedResource];
+        command->deleteLater();
+    }, Qt::DirectConnection);
+
     QObject::connect(command, &CommandEntity::progressChanged, this, [=](){
         qDebug() << command->progress();
-    });
+        [progressIndicator setCompletedUnitCount:(command->progress()*100)];
+    }, Qt::DirectConnection);
+    
     command->run();
-    command->waitForFinished();
-    const bool success = command->isFinished();
-    localPath = FilePathUtil::destination(workers->account()) + remotePath;
-    return success;
 }
 
-bool SharedStateOverview::causeDelete(QString identifier)
+void SharedStateOverview::causeUpload(FileProviderItem *item,
+                                      NSURL* newContents,
+                                      NSProgress *progressIndicator,
+                                      std::function<void ()> completionHandler,
+                                      std::function<void ()> failureHandler)
+{
+    QString identifier = QString::fromNSString(item.itemIdentifier);
+    qDebug() << "CAUSING UPLOAD:" << identifier;
+    AccountWorkers* workers = this->findWorkersForIdentifier(identifier);
+
+    if (!workers) {
+        qWarning() << "Failed to find account workers for" << identifier;
+        failureHandler();
+        return;
+    }
+
+    NSFileProviderManager* manager = this->providerManager();
+    [manager getUserVisibleURLForItemIdentifier:item.itemIdentifier
+                              completionHandler:[=](NSURL *userVisibleFile, NSError *error) {
+        qDebug() << "userVisibleFile" << userVisibleFile << "Error" << error;
+
+        if (error != nil) {
+            failureHandler();
+            return;
+        }
+
+        std::function<void()> userVisibleFileReceivedOperation = [=](){
+            QString remotePath = findRemoteDirForIdentifier(identifier);
+            if (remotePath.isEmpty()) {
+                qWarning() << "remotePath turned out to be empty:" << identifier;
+                failureHandler();
+                return;
+            }
+
+            BOOL lockSuccess = [userVisibleFile startAccessingSecurityScopedResource];
+            QString localPath = QUrl::fromNSURL(userVisibleFile).toLocalFile();
+
+            qDebug() << "CAUSING UPLOAD START:" << remotePath << localPath;
+
+            CommandEntity* command = workers->transferCommandQueue()->fileUploadRequest(localPath,
+                                                                                        remotePath,
+                                                                                        QFileInfo(localPath).lastModified(),
+                                                                                        false);
+
+            if (!command) {
+                qWarning() << "Received empty upload command entity";
+                if (lockSuccess)
+                    [userVisibleFile stopAccessingSecurityScopedResource];
+                failureHandler();
+                return;
+            }
+
+            [progressIndicator setTotalUnitCount:100];
+            progressIndicator.cancellationHandler = [command](){ command->abort(); };
+
+            QObject::connect(command, &CommandEntity::done, this, [=](){
+                qDebug() << "Upload done" << identifier << localPath << remotePath;
+                if (lockSuccess)
+                    [userVisibleFile stopAccessingSecurityScopedResource];
+                completionHandler();
+                command->deleteLater();
+            }, Qt::DirectConnection);
+
+            QObject::connect(command, &CommandEntity::aborted, this, [=](){
+                qDebug() << "Upload aborted" << identifier;
+                if (lockSuccess)
+                    [userVisibleFile stopAccessingSecurityScopedResource];
+                failureHandler();
+                command->deleteLater();
+            }, Qt::DirectConnection);
+
+            QObject::connect(command, &CommandEntity::progressChanged, this, [=](){
+                qDebug() << command->progress();
+                [progressIndicator setCompletedUnitCount:(command->progress()*100)];
+            }, Qt::DirectConnection);
+
+            command->run();
+            command->waitForFinished();
+        };
+
+        runDefaultConnectedOperation(userVisibleFileReceivedOperation);
+    }];
+}
+
+void SharedStateOverview::causeDelete(QString identifier,
+                                      std::function<void()> completionHandler,
+                                      std::function<void()> failureHandler)
 {
     qDebug() << "CAUSING DELETE:" << identifier;
     AccountWorkers* workers = this->findWorkersForIdentifier(identifier);
 
     if (!workers) {
         qWarning() << "Failed to find account workers for" << identifier;
-        return false;
+        failureHandler();
+        return;
     }
 
-    const QString remotePath = this->findPathForIdentifier(identifier);
+    const QString remotePath = findPathForIdentifier(identifier);
     if (remotePath.isEmpty()) {
         qWarning() << "remotePath turned out to be empty:" << identifier;
-        return false;
+        failureHandler();
+        return;
     }
 
     CommandEntity* command = workers->transferCommandQueue()->removeRequest(remotePath);
     if (!command) {
         qWarning() << "Received empty download command entity";
-        return false;
+        failureHandler();
+        return;
     }
 
     QObject::connect(command, &CommandEntity::done, this, [=](){
         qDebug() << "Removal done" << identifier;
-    });
+        completionHandler();
+        command->deleteLater();
+    }, Qt::DirectConnection);
+
+    QObject::connect(command, &CommandEntity::aborted, this, [=](){
+        qDebug() << "Removal error" << identifier;
+        failureHandler();
+        command->deleteLater();
+    }, Qt::DirectConnection);
+
     command->run();
-    command->waitForFinished();
-    const bool success = command->isFinished();
-    return success;
 }

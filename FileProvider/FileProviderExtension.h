@@ -9,5 +9,8 @@
 #include "SharedStateOverview.h"
 
 @interface FileProviderExtension : NSObject<NSFileProviderReplicatedExtension>
+{
+    NSInteger anchor;
+}
 
 @end

@@ -13,6 +13,14 @@
                 initWithItemIdentifier:(NSFileProviderItemIdentifier)itemIdentifier
                 withUTType:(UTType*)utType
                 withParent:(NSFileProviderItemIdentifier)parent
-                withSize:(unsigned long long)size;
+                withSize:(unsigned long long)size
+                withVersion:(NSString*)version
+                withCreationDate:(NSDate*)creationDate
+                withModificationDate:(NSDate*)modificationDate;
 
+- (void)setIsDownloading:(BOOL)value;
+
+- (void)setIsDownloaded:(BOOL)value;
+
+- (void)setIsMostRecentDownloaded:(BOOL)value;
 @end

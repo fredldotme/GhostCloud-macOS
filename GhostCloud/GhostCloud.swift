@@ -12,6 +12,8 @@ struct GhostCloudApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView().frame(minWidth: 450, idealWidth: 450, maxWidth: .infinity, minHeight: 400, idealHeight: 400, maxHeight: .infinity, alignment: .center)
+        }.commands {
+            CommandGroup(replacing: .newItem, addition: { })
         }
     }
 }
