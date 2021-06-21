@@ -318,7 +318,9 @@ void SharedStateOverview::causeUpload(FileProviderItem *item,
                                       NSURL* newContents,
                                       NSProgress *progressIndicator,
                                       std::function<void ()> completionHandler,
-                                      std::function<void ()> failureHandler)
+                                      std::function<void ()> failureHandler,
+                                      NSURL* externalCopyUrl,
+                                      QString externalFileName)
 {
     QString identifier = QString::fromNSString(item.itemIdentifier);
     qDebug() << "CAUSING UPLOAD:" << identifier;
@@ -330,12 +332,52 @@ void SharedStateOverview::causeUpload(FileProviderItem *item,
         return;
     }
 
+    // If this is an external copy-to-cloud, then resolve the URL directly, then return.
+    if (externalCopyUrl != nil && !externalFileName.isEmpty()) {
+        BOOL lockSuccess = [externalCopyUrl startAccessingSecurityScopedResource];
+        QString localPath = QUrl::fromNSURL(externalCopyUrl).toLocalFile();
+        QString remotePath = findRemoteDirForIdentifier(identifier);
+
+        qDebug() << "CAUSING UPLOAD START:" << remotePath << localPath;
+
+        CommandEntity* command = workers->transferCommandQueue()->fileUploadRequest(localPath,
+                                                                                    remotePath + externalFileName,
+                                                                                    QFileInfo(localPath).lastModified(),
+                                                                                    false);
+        
+        [progressIndicator setTotalUnitCount:100];
+        progressIndicator.cancellationHandler = [command](){ command->abort(); };
+
+        QObject::connect(command, &CommandEntity::done, this, [=](){
+            qDebug() << "Upload done" << identifier << localPath << remotePath;
+            if (lockSuccess)
+                [externalCopyUrl stopAccessingSecurityScopedResource];
+            completionHandler();
+        }, Qt::DirectConnection);
+
+        QObject::connect(command, &CommandEntity::aborted, this, [=](){
+            if (lockSuccess)
+                [externalCopyUrl stopAccessingSecurityScopedResource];
+            qDebug() << "Upload aborted" << identifier;
+            failureHandler();
+        }, Qt::DirectConnection);
+
+        QObject::connect(command, &CommandEntity::progressChanged, this, [=](){
+            qDebug() << command->progress();
+            [progressIndicator setCompletedUnitCount:(command->progress()*100)];
+        }, Qt::DirectConnection);
+
+        command->run();
+        return;
+    }
+
     NSFileProviderManager* manager = this->providerManager();
     [manager getUserVisibleURLForItemIdentifier:item.itemIdentifier
                               completionHandler:[=](NSURL *userVisibleFile, NSError *error) {
         qDebug() << "userVisibleFile" << userVisibleFile << "Error" << error;
 
         if (error != nil) {
+            qWarning() << "Error:" << error;
             failureHandler();
             return;
         }
@@ -354,7 +396,7 @@ void SharedStateOverview::causeUpload(FileProviderItem *item,
             qDebug() << "CAUSING UPLOAD START:" << remotePath << localPath;
 
             CommandEntity* command = workers->transferCommandQueue()->fileUploadRequest(localPath,
-                                                                                        remotePath,
+                                                                                        remotePath + QFileInfo(localPath).fileName(),
                                                                                         QFileInfo(localPath).lastModified(),
                                                                                         false);
 
@@ -390,12 +432,39 @@ void SharedStateOverview::causeUpload(FileProviderItem *item,
                 [progressIndicator setCompletedUnitCount:(command->progress()*100)];
             }, Qt::DirectConnection);
 
+            qDebug() << "Starting upload...";
             command->run();
             command->waitForFinished();
         };
 
         runDefaultConnectedOperation(userVisibleFileReceivedOperation);
     }];
+}
+
+void SharedStateOverview::causeDirectoryCreation(QString identifier, QString remotePath, std::function<void ()> successHandler, std::function<void ()> failHandler)
+{
+    AccountWorkers* workers = this->findWorkersForIdentifier(identifier);
+    if (!workers) {
+        failHandler();
+        return;
+    }
+    CommandEntity* command = workers->transferCommandQueue()->makeDirectoryRequest(remotePath, false);
+    if (!command) {
+        qWarning() << "Empty dir creation command received";
+        failHandler();
+        return;
+    }
+
+    command->run();
+    command->waitForFinished();
+
+    if (command->isFinished()) {
+        successHandler();
+    } else {
+        failHandler();
+    }
+
+    command->deleteLater();
 }
 
 void SharedStateOverview::causeDelete(QString identifier,

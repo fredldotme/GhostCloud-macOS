@@ -94,4 +94,17 @@ static QString findRemoteDirForIdentifier(QString identifier)
     return ret;
 }
 
+static NSString* getNewIdentifierForTemplateCreation(NSFileProviderItemIdentifier parent,
+                                                     NSString* filename,
+                                                     bool isDir)
+{
+    QString ret = QString::fromNSString(parent);
+    if (!ret.endsWith("/"))
+        ret += "/";
+    ret += QString::fromNSString(filename);
+    if (isDir)
+        ret += "/";
+    return ret.toNSString();
+}
+
 #endif /* FileProviderHelpers_h */

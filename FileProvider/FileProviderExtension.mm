@@ -40,16 +40,128 @@
 }
 
 - (nonnull NSProgress *)createItemBasedOnTemplate:(nonnull NSFileProviderItem)itemTemplate fields:(NSFileProviderItemFields)fields contents:(nullable NSURL *)url options:(NSFileProviderCreateItemOptions)options request:(nonnull NSFileProviderRequest *)request completionHandler:(nonnull void (^)(NSFileProviderItem _Nullable, NSFileProviderItemFields, BOOL, NSError * _Nullable))completionHandler {
-    // TODO: a new item was created on disk, process the item's creation
-    
-    NSFileProviderItemFields remainingFields = 0;
-    completionHandler(itemTemplate, remainingFields, false, nil);
-    return [[NSProgress alloc] init];
+    qDebug() << Q_FUNC_INFO << itemTemplate.itemIdentifier << fields << url << options;
+
+    NSProgress* progressIndicator = [[NSProgress alloc] init];
+    NSFileProviderManager* manager = SharedStateOverview::Instance()->providerManager();
+
+    // Prepare lambda
+    std::function<void(NSURL*, NSString*, bool)> actualCreation = [=](NSURL *userVisibleFile, NSString* identifier, bool isDir) {
+        BOOL lockSuccess = [userVisibleFile startAccessingSecurityScopedResource];
+
+        const QFileInfo fileInfo(QUrl::fromNSURL(userVisibleFile).toLocalFile());
+
+        FileProviderItem *item = [[FileProviderItem alloc] initWithName:itemTemplate.filename
+                                                           initWithItemIdentifier:identifier
+                                                           withUTType: isDir ? UTTypeFolder : UTTypePlainText
+                                                           withParent:itemTemplate.parentItemIdentifier
+                                                           withSize: isDir ? 0 : fileInfo.size()
+                                                           withVersion: fileInfo.lastModified().toString().toNSString()
+                                                           withCreationDate:fileInfo.birthTime().toNSDate()
+                                                           withModificationDate:fileInfo.lastModified().toNSDate()];
+        [item setIsDownloaded:TRUE];
+        [item setIsDownloading:FALSE];
+        [item setIsMostRecentDownloaded:TRUE];
+        QString ident = QString::fromNSString(identifier);
+        SharedStateOverview::Instance()->addFileProviderItem(ident, item);
+        QString localPath = QUrl::fromNSURL(userVisibleFile).toLocalFile();
+        QFileInfo localFileInfo(localPath);
+
+        const bool isLocalFileInfoDir = localFileInfo.isDir();
+        const bool isLocalFileInfoFile = localFileInfo.isFile();
+
+        if (lockSuccess)
+            [userVisibleFile stopAccessingSecurityScopedResource];
+
+        if (isLocalFileInfoDir) {
+            QString remotePath = findRemoteDirForIdentifier(ident) + QString::fromNSString(itemTemplate.filename);
+            std::function<void()> successHandler = [=]() {
+                NSFileProviderItemFields remainingFields = 0;
+                completionHandler(item, remainingFields, false, nil);
+                [SharedStateOverview::Instance()->providerManager() signalEnumeratorForContainerItemIdentifier:item.parentItemIdentifier completionHandler:^(NSError * _Nullable error) {
+                    qDebug() << "Directory contents after directory creation refreshed";
+                }];
+            };
+            std::function<void()> failHandler = [=]() {
+                NSFileProviderItemFields remainingFields = fields;
+                NSError* error = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:NSFileReadUnknownError userInfo:nil];
+                completionHandler(item, remainingFields, false, error);
+            };
+            runDefaultConnectedOperation([=](){
+                SharedStateOverview::Instance()->causeDirectoryCreation(ident,
+                                                                        remotePath,
+                                                                        successHandler,
+                                                                        failHandler);
+            });
+        } else if (isLocalFileInfoFile) {
+            std::function<void()> successHandler = [=]() {
+                NSFileProviderItemFields remainingFields = 0;
+                completionHandler(item, remainingFields, false, nil);
+                [SharedStateOverview::Instance()->providerManager() signalEnumeratorForContainerItemIdentifier:item.parentItemIdentifier completionHandler:^(NSError * _Nullable error) {
+                    qDebug() << "Directory contents after file upload refreshed";
+                }];
+            };
+            std::function<void()> failHandler = [=]() {
+                NSFileProviderItemFields remainingFields = fields;
+                NSError* error = [[NSError alloc] initWithDomain:NSCocoaErrorDomain code:NSFileReadUnknownError userInfo:nil];
+                completionHandler(item, remainingFields, false, error);
+            };
+
+            runDefaultConnectedOperation([=](){
+                FileProviderItem* item = SharedStateOverview::Instance()->getFileProviderItem(ident);
+                SharedStateOverview::Instance()->causeUpload(item,
+                                                             userVisibleFile,
+                                                             progressIndicator,
+                                                             successHandler,
+                                                             failHandler,
+                                                             url,
+                                                             QString::fromNSString(itemTemplate.filename));
+            });
+        }
+    };
+
+    // Lambda is prepared, start actual work
+    [manager getUserVisibleURLForItemIdentifier:itemTemplate.itemIdentifier
+                              completionHandler:[=](NSURL *userVisibleFile, NSError *error) {
+        qDebug() << Q_FUNC_INFO << userVisibleFile << error;
+        if (error != nil) {
+            qWarning() << Q_FUNC_INFO << "Error:" << error;
+            NSFileProviderItemFields remainingFields = 0;
+            completionHandler(itemTemplate, remainingFields, false, nil);
+            return;
+        }
+
+        FileProviderItem* parentItem = SharedStateOverview::Instance()->getFileProviderItem(QString::fromNSString(itemTemplate.parentItemIdentifier));
+        qDebug() << Q_FUNC_INFO << parentItem << itemTemplate.parentItemIdentifier;
+
+        const bool isDir = (itemTemplate.contentType == UTTypeFolder);
+        NSFileProviderItemIdentifier newIdentifier = getNewIdentifierForTemplateCreation(itemTemplate.parentItemIdentifier,
+                                                                                         itemTemplate.filename,
+                                                                                         isDir);
+        qDebug() << Q_FUNC_INFO << "newIdentifier" << newIdentifier;
+
+        /*if (parentItem == nil) {
+            // Fetch new directory listing and upload afterwards.
+            [SharedStateOverview::Instance()->providerManager() signalEnumeratorForContainerItemIdentifier:parentItem.itemIdentifier completionHandler:^(NSError * _Nullable error) {
+                qDebug() << "ERROR:" << error << parentItem.itemIdentifier;
+                runDefaultConnectedOperation([=](){
+                    actualCreation(userVisibleFile, newIdentifier, isDir);
+                });
+            }];
+            return;
+        }*/
+
+        runDefaultConnectedOperation([=](){
+            actualCreation(userVisibleFile, newIdentifier, isDir);
+        });
+        return;
+    }];
+    return progressIndicator;
 }
 
 - (nonnull NSProgress *)deleteItemWithIdentifier:(nonnull NSFileProviderItemIdentifier)identifier baseVersion:(nonnull NSFileProviderItemVersion *)version options:(NSFileProviderDeleteItemOptions)options request:(nonnull NSFileProviderRequest *)request completionHandler:(nonnull void (^)(NSError * _Nullable))completionHandler {
     NSProgress* progressIndicator = [[NSProgress alloc] init];
-    
+
     std::function<void()> deleteOperation = [=](){
         std::function<void()> compHandler = [=](){
             NSError* error = nil;
@@ -72,7 +184,7 @@
 
 - (nonnull NSProgress *)fetchContentsForItemWithIdentifier:(nonnull NSFileProviderItemIdentifier)itemIdentifier version:(nullable NSFileProviderItemVersion *)requestedVersion request:(nonnull NSFileProviderRequest *)request completionHandler:(nonnull void (^)(NSURL * _Nullable, NSFileProviderItem _Nullable, NSError * _Nullable))completionHandler {
     NSProgress* progressIndicator = [[NSProgress alloc] init];
-    qDebug() << Q_FUNC_INFO << itemIdentifier;
+    qDebug() << Q_FUNC_INFO << itemIdentifier << requestedVersion.contentVersion;
     
     QString ident = QString::fromNSString(itemIdentifier);
     FileProviderItem* item = SharedStateOverview::Instance()->getFileProviderItem(ident);
@@ -89,9 +201,10 @@
             [item setIsMostRecentDownloaded:TRUE];
 
             NSURL* url = QUrl::fromLocalFile(localPath).toNSURL();
-            [url startAccessingSecurityScopedResource];
+            const BOOL lockSuccess = [url startAccessingSecurityScopedResource];
             completionHandler(QUrl::fromLocalFile(localPath).toNSURL(), item, error);
-            [url stopAccessingSecurityScopedResource];
+            if (lockSuccess)
+                [url stopAccessingSecurityScopedResource];
         };
         
         std::function<void(QString)> failureHandler = [=](QString localPath){
@@ -103,7 +216,7 @@
             qDebug() << Q_FUNC_INFO << item << error << localPath << "calling completinoHandler";
             completionHandler(QUrl::fromLocalFile(localPath).toNSURL(), item, error);
         };
-        
+
         SharedStateOverview::Instance()->causeDownload(QString::fromNSString(itemIdentifier),
                                                        progressIndicator,
                                                        compHandler,
@@ -155,9 +268,8 @@
     return [[NSProgress alloc] init];
 }
 
-- (nonnull NSProgress *)modifyItem:(nonnull NSFileProviderItem)item baseVersion:(nonnull NSFileProviderItemVersion *)version changedFields:(NSFileProviderItemFields)changedFields contents:(nullable NSURL *)newContents options:(NSFileProviderModifyItemOptions)options request:(nonnull NSFileProviderRequest *)request completionHandler:(nonnull void (^)(NSFileProviderItem _Nullable, NSFileProviderItemFields, BOOL, NSError * _Nullable))completionHandler {
-    // TODO: an item was modified on disk, process the item's modification
-
+- (nonnull NSProgress *)modifyItem:(nonnull NSFileProviderItem)item baseVersion:(nonnull NSFileProviderItemVersion *)version changedFields:(NSFileProviderItemFields)changedFields contents:(nullable NSURL *)newContents options:(NSFileProviderModifyItemOptions)options request:(nonnull NSFileProviderRequest *)request completionHandler:(nonnull void (^)(NSFileProviderItem _Nullable, NSFileProviderItemFields, BOOL, NSError * _Nullable))completionHandler
+{
     NSFileProviderItemFields remainingFields = 0;
     
     const QString identifier = QString::fromNSString(item.itemIdentifier);
@@ -195,11 +307,13 @@
             completionHandler(item, remainingFields, false, error);
         };
 
-        SharedStateOverview::Instance()->causeUpload(item,
+        SharedStateOverview::Instance()->causeUpload(fpItem,
                                                      newContents,
                                                      progressIndicator,
                                                      compHandler,
-                                                     failureHandler);
+                                                     failureHandler,
+                                                     nil,
+                                                     "");
     };
     runDefaultConnectedOperation(upOperation);
     

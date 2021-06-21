@@ -50,10 +50,16 @@ public:
                      NSURL* newContents,
                      NSProgress* progressIndicator,
                      std::function<void()> completionHandler,
-                     std::function<void()> failureHandler);
+                     std::function<void()> failureHandler,
+                     NSURL* externalCopyUrl,
+                     QString externalFileName);
     void causeDelete(QString identifier,
                      std::function<void()> completionHandler,
                      std::function<void()> failureHandler);
+    void causeDirectoryCreation(QString identifier,
+                                QString remotePath,
+                                std::function<void()> successHandler,
+                                std::function<void()> failHandler);
 
     void addFileProviderItem(QString identifier, FileProviderItem* item);
 
